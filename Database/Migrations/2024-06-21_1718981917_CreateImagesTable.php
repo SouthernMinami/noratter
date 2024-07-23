@@ -8,13 +8,12 @@ class CreateImagesTable implements SchemaMigration
 {
     public function up(): array
     {
-        // マイグレーション処理を書く
         return [
             'CREATE TABLE images (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 title VARCHAR(50),
                 description VARCHAR(10),
-                image_path VARCHAR(255),    
+                image_file MEDIUMBLOB,    
                 post_url VARCHAR(255),
                 delete_url VARCHAR(255),
                 view_count INT,
