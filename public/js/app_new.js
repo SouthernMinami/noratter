@@ -58,9 +58,10 @@ const postImage = () => {
         method: 'POST',
         body: formData
     })
-    .then(response => response.text())
+    .then(response => response.json())
     .then(data => {
         console.log(data)
+        window.location.href = '/image/' + data['postPath']
     })
-    .catch(error => console.error('Error:', error))
+    .catch(error => console.error(error))
 }

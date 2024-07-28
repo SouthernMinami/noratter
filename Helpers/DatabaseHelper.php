@@ -6,61 +6,38 @@ use \Database\MySQLWrapper;
 
 class DatabaseHelper
 {
-    public static function getSnippet(string $path): array
+    public static function getImage(string $path): array
     {
         $db = new MySQLWrapper();
 
-        $query = "SELECT * FROM snippets WHERE path = ?";
+        $query = "SELECT * FROM images WHERE post_path = ?";
         $stmt = $db->prepare($query);
         $stmt->bind_param('s', $path);
         $stmt->execute();
         $result = $stmt->get_result();
-        $snippetInfo = $result->fetch_assoc();
+        $imageInfo = $result->fetch_assoc();
 
-        if (!$snippetInfo) {
-            throw new \InvalidArgumentException(sprintf('pathが %s のデータは見つかりませんでした。', $path));
-        }
-        if (strtotime($snippetInfo['expiration_date']) <= strtotime(date('Y-m-d H:i:s'))) {
-            header('Location: /404');
-            throw new \InvalidArgumentException('このスニペットは保存期限切れです。');
+        if (!$imageInfo) {
+            throw new \InvalidArgumentException(sprintf('No image post found with the path: %s', $path));
         }
 
-        return $snippetInfo;
+        return $imageInfo;
     }
-    public static function getSnippets(): array
+    
+    public static function getImages(): array
+    {
+
+    }
+
+    public static function updateImage(string $path): void
     {
         $db = new MySQLWrapper();
 
-        $query = 'SELECT * FROM snippets';
+        $now = date('Y-m-d H:i:s');
+        // 特定のpost_pathの投稿のview_countを1増やし、accessed_atを現在時刻に更新
+        $query = "UPDATE images SET view_count = view_count + 1, accessed_at = ? WHERE post_path = ?";
         $stmt = $db->prepare($query);
+        $stmt->bind_param('ss', $now, $path);
         $stmt->execute();
-        $result = $stmt->get_result();
-
-        $i = 0;
-        $snippets = [];
-        while ($row = $result->fetch_assoc()) {
-            // expiration_dateが今日以前の場合はDELETEしてスキップ
-            if (strtotime($row['expiration_date']) <= strtotime(date('Y-m-d H:i:s'))) {
-                $query = "DELETE FROM snippets WHERE path = ?";
-                $stmt = $db->prepare($query);
-                $stmt->bind_param('s', $row['path']);
-                $stmt->execute();
-
-                $i++;
-                continue;
-            }
-            $snippets[$i] = [
-                'title' => $row['title'],
-                'language' => $row['language'],
-                'content' => $row['content'],
-                'path' => $row['path'],
-                'expiration_date' => $row['expiration_date'],
-                'created_at' => $row['created_at'],
-                'updated_at' => $row['updated_at']
-            ];
-            $i++;
-        }
-
-        return $snippets;
     }
 }

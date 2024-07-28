@@ -14,7 +14,12 @@ return [
         return new HTMLRenderer('new');
     },
     'image' => function (): HTMLRenderer {
-        return new HTMLRenderer('image');
+        $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        // /image/以下のパスを取得
+        $hash = ValidationHelper::string(ltrim($path, '/image/'));
+        $imageInfo = DatabaseHelper::getImage($hash);
+
+        return new HTMLRenderer('image', ['image' => $imageInfo]);
     },
     'all_images' => function (): HTMLRenderer {
         return new HTMLRenderer('all_images');

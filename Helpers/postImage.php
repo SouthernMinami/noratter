@@ -26,7 +26,7 @@ if (move_uploaded_file($imageFile['tmp_name'], $imagePath)) {
 
     if($return_var !== 0) {
         http_response_code(500);
-        echo 'Failed to post due to internal error, please contact the admin. <br>';
+        echo 'Seed execution failed.';
         exit();
     }
 } else {
@@ -34,3 +34,9 @@ if (move_uploaded_file($imageFile['tmp_name'], $imagePath)) {
     echo 'Failed to upload the file.';
     exit();
 }
+
+$resData = array(
+    'postPath' => $postPath,
+    'deletePath' => $deletePath,
+);
+print(json_encode($resData));
