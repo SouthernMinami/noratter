@@ -7,7 +7,7 @@ require_once '../vendor/autoload.php';
 use Helpers\ValidationHelper;
 
 $title = ValidationHelper::string(isset($_POST['title']) && $_POST['title'] !== '' ? $_POST['title'] : 'untitled');
-$description = ValidationHelper::string(isset($_POST['description']) && $_POST['description'] !== '' ? $_POST['description'] : 'no description');
+$description = ValidationHelper::string(isset($_POST['description']) && $_POST['description'] !== '' ? $_POST['description'] : '...');
 $date = ValidationHelper::string(date('Y-m-d H:i:s'));
 $imageFile = $_FILES['file'];
 // imageFileを元にハッシュ値を生成し、一意の閲覧用URLと削除用URLを生成

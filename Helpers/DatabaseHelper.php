@@ -6,11 +6,11 @@ use \Database\MySQLWrapper;
 
 class DatabaseHelper
 {
-    public static function getImage(string $path): array
+    public static function getImage(string $path, string $pathColumn): array
     {
         $db = new MySQLWrapper();
 
-        $query = "SELECT * FROM images WHERE post_path = ?";
+        $query = "SELECT * FROM images WHERE $pathColumn = ?";
         $stmt = $db->prepare($query);
         $stmt->bind_param('s', $path);
         $stmt->execute();
@@ -18,6 +18,8 @@ class DatabaseHelper
         $imageInfo = $result->fetch_assoc();
 
         if (!$imageInfo) {
+            // 404ページを表示
+            header('Location: /404');
             throw new \InvalidArgumentException(sprintf('No image post found with the path: %s', $path));
         }
 

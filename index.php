@@ -20,8 +20,9 @@ $routes = include (__DIR__ . '/Routing/routes.php');
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 // 先頭のスラッシュを削除
 $path = ltrim($path, '/');
-// パスがimageから始まる場合、/{hash}の部分は除く
+// パスがimageもしくはdeleteから始まる場合、/{hash}の部分は除く
 $path = ValidationHelper::path($path, 'image');
+$path = ValidationHelper::path($path, 'delete');
 
 if (isset($routes[$path])) {
     $renderer = $routes[$path]();
@@ -54,7 +55,9 @@ if (isset($routes[$path])) {
         }
     }
 } else {
-    // 一致するルートがない場合、404 Not Found
+    // 一致するルートがない場合、404 Not Foundページを表示
     http_response_code(404);
-    print ("404 Not Found: The requested URL was not found on this server.");
+    include (__DIR__ . '/Views/layout/header.php');
+    include (__DIR__ . '/Views/404.php');
+    include (__DIR__ . '/Views/layout/footer.php');
 }
