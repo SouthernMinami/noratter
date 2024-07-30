@@ -1,4 +1,5 @@
 <?php
+use Helpers\ValidationHelper;
 
 spl_autoload_extensions(".php");
 spl_autoload_register(function ($class) {
@@ -19,6 +20,9 @@ $routes = include (__DIR__ . '/Routing/routes.php');
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 // 先頭のスラッシュを削除
 $path = ltrim($path, '/');
+// パスがimageもしくはdeleteから始まる場合、/{hash}の部分は除く
+$path = ValidationHelper::path($path, 'image');
+$path = ValidationHelper::path($path, 'delete');
 
 if (isset($routes[$path])) {
     $renderer = $routes[$path]();
@@ -26,8 +30,7 @@ if (isset($routes[$path])) {
         // ヘッダーフィールドを設定
         foreach ($renderer->getFields() as $name => $value) {
             // ヘッダーに設定する値を無害なものにサニタイズ
-            // FILTER_SANITIZE_STRING ... 文字列に変換
-            $sanitized_value = filter_var($value, FILTER_SANITIZE_STRING);
+            $sanitized_value = filter_var($value, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
             // サニタイズされた値がもとの値と一致する場合、ヘッダーに設定
             if ($sanitized_value === $value) {
@@ -52,7 +55,9 @@ if (isset($routes[$path])) {
         }
     }
 } else {
-    // 一致するルートがない場合、404 Not Found
+    // 一致するルートがない場合、404 Not Foundページを表示
     http_response_code(404);
-    print ("404 Not Found: The requested URL was not found on this server.");
+    include (__DIR__ . '/Views/layout/header.php');
+    include (__DIR__ . '/Views/404.php');
+    include (__DIR__ . '/Views/layout/footer.php');
 }

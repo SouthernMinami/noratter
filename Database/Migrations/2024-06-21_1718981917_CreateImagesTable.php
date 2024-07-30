@@ -8,14 +8,14 @@ class CreateImagesTable implements SchemaMigration
 {
     public function up(): array
     {
-        // マイグレーション処理を書く
         return [
             'CREATE TABLE images (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 title VARCHAR(50),
+                description VARCHAR(10),
                 image_path VARCHAR(255),    
-                post_url VARCHAR(255),
-                delete_url VARCHAR(255),
+                post_path VARCHAR(255),
+                delete_path VARCHAR(255),
                 view_count INT,
                 ip_address VARCHAR(255),
                 file_size double,
@@ -27,7 +27,8 @@ class CreateImagesTable implements SchemaMigration
 
     public function down(): array
     {
-        // ロールバック処理を書く
-        return [];
+        return [
+            'DROP TABLE images'
+        ];
     }
 }
