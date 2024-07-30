@@ -28,6 +28,31 @@ class DatabaseHelper
     
     public static function getImages(): array
     {
+        $db = new MySQLWrapper();
+
+        $query = 'SELECT * FROM images';
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $i = 0;
+        $images = [];
+        while ($row = $result->fetch_assoc()) {
+            $images[$i] = [
+                'title' => $row['title'],
+                'description' => $row['description'],
+                'image_path' => $row['image_path'],
+                'post_path' => $row['post_path'],
+                'delete_path' => $row['delete_path'],
+                'view_count' => $row['view_count'],
+                'ip_address' => $row['ip_address'],
+                'created_at' => $row['created_at'],
+                'accessed_at' => $row['accessed_at']
+            ];
+            $i++;
+        }
+
+        return $images;
 
     }
 

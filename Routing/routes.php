@@ -29,7 +29,8 @@ return [
         return new HTMLRenderer('delete', ['image' => $imageInfo]);
     },
     'all_images' => function (): HTMLRenderer {
-        return new HTMLRenderer('all_images');
+        $images = DatabaseHelper::getImages();
+        return new HTMLRenderer('all_images', ['images' => $images]);
     },
     '404' => function (): HTMLRenderer {
         return new HTMLRenderer('404');
