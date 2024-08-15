@@ -9,10 +9,9 @@ date_default_timezone_set('Asia/Tokyo');
 // imagesテーブルのaccessed_atとview_countを更新する
 DatabaseHelper::updateImage($image['post_path']);
 
-session_start();
-
-// 同じディレクトリのcronTest.phpを実行する(フルパスで指定)
-$cronJob = '*/1 * * * * /usr/bin/php /home/vboxuser/dev/noratter/Views/cronTest.php';
+// deleteExpiredPosts.phpを実行する(フルパスで指定)
+// $cronJob = '* * * */1 * /usr/bin/php /home/ubuntu/web/noratter/Helpers/deleteExpiredPosts.php';
+$cronJob = '*/1 * * * * /usr/bin/php /home/vboxuser/dev/noratter/Helpers/deleteExpiredPosts.php';
 
 // 既存のcronジョブを取得
 $output = [];
@@ -28,12 +27,10 @@ if (!in_array($cronJob, $output)) {
     file_put_contents($tempFile, implode(PHP_EOL, $output) . PHP_EOL);
 
     // 新しいcronジョブリストを設定
-    exec('crontab ' . $tempFile, $output, $return_var);
+    exec("crontab $tempFile", $output, $return_var);
     if ($return_var !== 0) {
         error_log("Cron setting failed.");
     }
-
-    unlink($tempFile);
 } else {
     error_log("Cron job already exists.");
 }

@@ -2,4 +2,4 @@
 
 namespace Views;
 
-exec('touch /home/vboxuser/dev/noratter/Views/ogaheohgae.txt');
+exec('touch /home/vboxuser/dev/noratter/Helpers/' . rand() . '.txt');
