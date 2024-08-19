@@ -10,6 +10,7 @@ $title = ValidationHelper::string(isset($_POST['title']) && $_POST['title'] !== 
 $description = ValidationHelper::string(isset($_POST['description']) && $_POST['description'] !== '' ? $_POST['description'] : '...');
 $date = ValidationHelper::string(date('Y-m-d H:i:s'));
 $imageFile = $_FILES['file'];
+
 // imageFileを元にハッシュ値を生成し、一意の閲覧用URLと削除用URLを生成
 $postPath = ValidationHelper::string(hash('md5', $imageFile['name'] . $date));
 $deletePath = ValidationHelper::string(hash('md5', $imageFile['name'] . $date . 'delete'));
@@ -31,12 +32,10 @@ if (move_uploaded_file($imageFile['tmp_name'], $imagePath)) {
     }
 } else {
     http_response_code(500);
-    echo 'Failed to upload the file.';
+    echo 'Failed to post the image.';
     exit();
 }
 
-$resData = array(
-    'postPath' => $postPath,
-    'deletePath' => $deletePath,
+$resData = array( 'postPath' => $postPath, 'deletePath' => $deletePath,
 );
 print(json_encode($resData));

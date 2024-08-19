@@ -10,8 +10,7 @@ date_default_timezone_set('Asia/Tokyo');
 DatabaseHelper::updateImage($image['post_path']);
 
 // deleteExpiredPosts.phpを実行する(フルパスで指定)
-// $cronJob = '* * * */1 * /usr/bin/php /home/ubuntu/web/noratter/Helpers/deleteExpiredPosts.php';
-$cronJob = '*/1 * * * * /usr/bin/php /home/vboxuser/dev/noratter/Helpers/deleteExpiredPosts.php';
+$cronJob = '* * * */1 * /usr/bin/php /home/ubuntu/web/noratter/Helpers/deleteExpiredPosts.php';
 
 // 既存のcronジョブを取得
 $output = [];
@@ -34,9 +33,6 @@ if (!in_array($cronJob, $output)) {
 } else {
     error_log("Cron job already exists.");
 }
-
-var_dump($output);
-
 
 ?>
 <script type="text/javascript">
