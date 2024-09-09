@@ -14,7 +14,7 @@
 
 <body>
     <header>
-        <nav>
+        <nav class="pt-4">
             <ul className="navbar flex items-center w-full h-full space-x-4">
                 <li class="nav-item text-4xl font-bold text-white pb-2 pl-3 pr-2">
                     <h1><a href="/" class="logo">NORATTER</a></h1>
