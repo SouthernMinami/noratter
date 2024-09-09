@@ -19,7 +19,7 @@
                 <li class="nav-item text-4xl font-bold text-white pb-2 pl-3 pr-2">
                     <h1><a href="/" class="logo">NORATTER</a></h1>
                 </li>
-                <div class="links">
+                <div class="links flex-column flex-md-row">
                     <li class="nav-item nav-link flex items-center justify-between text-slate-400">
                         <p><a href="/new" class="post-btn">NEW POST</a></p>
                     </li>

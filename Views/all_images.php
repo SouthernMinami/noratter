@@ -27,7 +27,7 @@ $currImages = array_slice($images, $indexOfFirstImage, $indexOfLastImage);
         <div class="col-md-4 col-sm-6 mb-2">
             <div class="card post-card">
                 <a href="/image/<?php echo htmlspecialchars($image['post_path'], ENT_QUOTES, 'UTF-8'); ?>">
-                    <img src="<?php echo htmlspecialchars($image['image_path'], ENT_QUOTES, 'UTF-8'); ?>" alt="preview image" class="img-fluid">
+                    <img src="<?php echo htmlspecialchars($image['image_path'], ENT_QUOTES, 'UTF-8'); ?>" alt="preview image" class="img-fluid img-thumbnail">
                 </a>
                 <div class="card-body">
                     <h5 class="card-title"><?php echo htmlspecialchars($image['title'], ENT_QUOTES, 'UTF-8'); ?></h5>

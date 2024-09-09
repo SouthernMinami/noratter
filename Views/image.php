@@ -45,7 +45,7 @@ if (!in_array($cronJob, $output)) {
     <h3><?php echo htmlspecialchars($image['title'], ENT_QUOTES, 'UTF-8'); ?></h2>
         <div id="preview" class="pb-3 preview">
             <img id="preview-img" src="<?php echo htmlspecialchars($image['image_path'], ENT_QUOTES, 'UTF-8'); ?>"
-                alt="preview image">
+                alt="preview image" class="img-fluid">
         </div>
         <p>Description<br /><?php echo htmlspecialchars($image['description'], ENT_QUOTES, 'UTF-8'); ?></p>
         <p>Views: <?php echo htmlspecialchars($image['view_count'], ENT_QUOTES, 'UTF-8'); ?></p>
